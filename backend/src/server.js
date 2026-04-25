@@ -1,22 +1,34 @@
 import express from "express"
 import { ENV } from "./lib/env.js"
 import path from "path"
+import cors from "cors"
+import { fileURLToPath } from "url"
 
 const app = express();
 
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get('/madan',(req,res)=>{
-  res.status(200).json({message:"omala deii"})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+// API routes
+app.get('/madan', (req, res) => {
+  res.status(200).json({ message: "omala deii" })
 })
 
-//if the app is ready for deployment
-if(ENV.NODE_ENV == "production"){
-  app.use(express.static(path.join(__dirname,"../frontend/dist")));
+// Serve frontend in production
+if (ENV.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
-  app.get("/{*any}",(req,res)=>{
-    res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
+  app.get("/{*any}", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
   });
 }
 
-app.listen(ENV.PORT,()=>console.log(`http://localhost:${ENV.PORT}`))
+export default app;
+
+if (ENV.NODE_ENV !== "production") {
+  app.listen(ENV.PORT, () => console.log(`http://localhost:${ENV.PORT}`))
+}
