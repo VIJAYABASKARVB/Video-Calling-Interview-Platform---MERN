@@ -3,6 +3,7 @@ import { ENV } from "./lib/env.js"
 import path from "path"
 import cors from "cors"
 import { fileURLToPath } from "url"
+import { connectDB } from "../src/lib/db.js";
 
 const app = express();
 
@@ -27,8 +28,21 @@ if (ENV.NODE_ENV === "production") {
   });
 }
 
-export default app;
+export default app; 
 
-if (ENV.NODE_ENV !== "production") {
-  app.listen(ENV.PORT, () => console.log(`http://localhost:${ENV.PORT}`))
+//start the Server
+
+const startServer = async() => {
+  try{
+    await connectDB();
+    if (ENV.NODE_ENV !== "production") {
+      app.listen(ENV.PORT, () => {
+        console.log(`http://localhost:${ENV.PORT}`)
+    })
 }
+  }catch(err){
+    console.error("💀Error in staring the server!💣",err);
+  }
+}
+
+startServer();
