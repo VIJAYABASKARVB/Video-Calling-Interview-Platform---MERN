@@ -37,15 +37,15 @@ export default app;
 //start the Server
 
 const startServer = async() => {
-  try{
-    await connectDB();
-    if (ENV.NODE_ENV !== "production") {
+  if (ENV.NODE_ENV !== "production") {
+    try {
+      await connectDB();
       app.listen(ENV.PORT, () => {
         console.log(`http://localhost:${ENV.PORT}`)
-    })
-}
-  }catch(err){
-    console.error("💀Error in staring the server!💣",err);
+      })
+    } catch(err) {
+      console.error("💀Error starting server:", err);
+    }
   }
 }
 
