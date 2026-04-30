@@ -23,11 +23,11 @@
     },
     {
       "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "dest": "/frontend/dist/assets/$1"
     },
     {
       "src": "/(.*\\.(js|css|ico|png|jpg|svg|woff|woff2|ttf))",
-      "dest": "/$1"
+      "dest": "/frontend/dist/$1"
     },
     {
       "src": "/(.*)",
