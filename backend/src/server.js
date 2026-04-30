@@ -5,7 +5,7 @@ import cors from "cors"
 import { fileURLToPath } from "url"
 import { connectDB } from "../src/lib/db.js";
 import { functions, inngest } from "./lib/inngest.js"
-import { serve } from "inngest/express";
+import { serve } from "inngest/node";
 
 const app = express();
 
